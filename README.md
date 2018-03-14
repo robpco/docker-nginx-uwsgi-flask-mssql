@@ -1,8 +1,8 @@
 # Supported tags and `Dockerfile` links
 
-- `latest` [_(python2.7/Dockerfile)_](https://github.com/robertpeteuil/mssql-flask-uwsgi-nginx/blob/master/python2.7/Dockerfile)
+- `py2.7`, `python2.7` [_(python2.7/Dockerfile)_](https://github.com/robertpeteuil/mssql-flask-uwsgi-nginx/blob/master/python2.7/Dockerfile)
 
-The `latest` tag is temporarily supported as only Python 2.7 is currently supported.
+**You must explicitly use one of the tags above.**  The `latest` tag is not assigned since each tag represents a different variant, not an incremental version.
 
 ## MSSQL-FLASK-UWSGI-NGINX
 
