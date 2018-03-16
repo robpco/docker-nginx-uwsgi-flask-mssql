@@ -17,32 +17,33 @@ RUN set -x && \
     done; \
     test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
     echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
-    && apt-get update && apt-get install -y \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ca-certificates \
     nginx=${NGINX_VERSION} \
     gettext-base \
     supervisor \
     apt-transport-https \
     apt-utils \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
+    locales
 
-# Install Microsoft SQL Server Drivers
+# Install Official Microsoft SQL Server Driver and ODBC
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
     && apt-get update \
-    && ACCEPT_EULA=Y apt-get install -y msodbcsql \
+    && ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    msodbcsql \
     unixodbc-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    # Adjust Locales to prevemt MS SQL Driver error
+    && touch /usr/share/locale/locale.alias \
+    && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 
-# Install python linraries
+# Install Python libraries
 RUN pip install --no-cache-dir --disable-pip-version-check \
     uwsgi \
     flask \
     pyodbc
-
-# Fix Locales or MS SQL Driver
-RUN touch /usr/share/locale/locale.alias \
-    && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 
 # setup log files
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
