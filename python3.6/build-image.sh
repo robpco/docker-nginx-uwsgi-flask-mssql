@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker build -t robpco/mssql-flask-uwsgi-nginx:python3.6 .
+docker build -t robpco/flask-mssql-nginx:python3.6 .
