@@ -1,6 +1,6 @@
-FROM python:3.6
+FROM python:3.6-stretch
 
-ENV NGINX_VERSION 1.13.12-1~jessie
+ENV NGINX_VERSION 1.13.12-1~stretch
 
 # use multiple key servers to protect against build failure
 RUN set -x && \
@@ -16,7 +16,7 @@ RUN set -x && \
     apt-key adv --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$NGINX_GPGKEY" && found=yes && break; \
     done; \
     test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
-    echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
+    echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ca-certificates \
@@ -29,10 +29,10 @@ RUN set -x && \
 
 # Install Official Microsoft SQL Server Driver and ODBC
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
     && apt-get update \
     && ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    msodbcsql \
+    msodbcsql17 \
     unixodbc-dev \
     && rm -rf /var/lib/apt/lists/* \
     # Adjust Locales to prevemt MS SQL Driver error

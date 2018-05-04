@@ -5,22 +5,22 @@
 
 **You must explicitly use one of the tags above.**  The `latest` tag is not assigned since each tag represents a different variant, not an incremental version.
 
-## FLASK-MSSQL-NGINX
+## NGINX-UWSGI-FLASK-MSSQL
 
 **Docker** image for Python Apps with **Nginx**, **uWSGI**, **Flask**, **MS SQL Driver** and **pyodbc** running in a single container to enable Python Flask Web Apps that require MS SQL connectivity and scaling for production with Nginx.
 
 **GitHub Repo**: <https://github.com/robertpeteuil/docker-nginx-uwsgi-flask-mssql>
 
-**Docker Hub Images**: <https://hub.docker.com/r/robpco/docker-nginx-uwsgi-flask-mssql/>
+**Docker Hub Images**: <https://hub.docker.com/r/robpco/nginx-uwsgi-flask-mssql/>
 
 ## Overview
 
-This Docker image allow the creation of Python Web Apps with MS SQL connectivity to run on Nginx via uWSGI. It simplifies the task of using Flask Web Apps with MS SQL and serves web requests via Nginx which is recommended for production deployment.
+This Docker image allow the creation of Python Web Apps with MS SQL connectivity to run on Nginx via uWSGI. It simplifies the task of using Flask Web Apps with MS SQL and serves web requests via Nginx which is recommended for production deployment.  These images use `pythonx.x-stretch` images as the base, so additional packages are installed from Debian stretch.
 
 - This image is similar to my [nginx-uwsgi-flask](https://github.com/robertpeteuil/docker-nginx-uwsgi-flask) image but also includes the MS SQL Driver, unixODBC Driver and pyodbc library installed.
 - Installing the MS Sql Driver in a container can be difficult as it requires installation from a specific Microsoft repository. installing and configuring `locales` with a specific configuration.
 
-This repo auto-generates images to [Docker-Hub](https://hub.docker.com/r/robpco/docker-nginx-uwsgi-flask-mssql/).  It currently supports Python 2.7.
+This repo auto-generates images to [Docker-Hub](https://hub.docker.com/r/robpco/nginx-uwsgi-flask-mssql/).  It currently supports Python 2.7 and 3.6.
 
 ## Usage
 
@@ -31,8 +31,7 @@ Basic usage information is provided below.
 This is useful during development as you can edit the code on your local machine.
 
 ``` shell
-docker run --name webapp -d -p 8080:80 -v ./app:/app robpco/docker-nginx-uwsgi-flask-mssql:python2.7
-docker run --name webapp -d -p 8080:80 -v ./app:/app robpco/docker-nginx-uwsgi-flask-mssql:python2.7
+docker run --name webapp -d -p 8080:80 -v ./app:/app robpco/nginx-uwsgi-flask-mssql:python2.7
 ```
 
 - The name of your application should be `main.py`
@@ -45,7 +44,7 @@ docker run --name webapp -d -p 8080:80 -v ./app:/app robpco/docker-nginx-uwsgi-f
 In this example, the app directory contains the application, named `main.py`, and any python library requirements are stated inside the `requirements.txt` file included in the app directory.
 
 ``` Dockerfile
-FROM robpco/docker-nginx-uwsgi-flask-mssql:python2.7
+FROM robpco/nginx-uwsgi-flask-mssql:python2.7
 
 COPY ./app /app
 WORKDIR /app
