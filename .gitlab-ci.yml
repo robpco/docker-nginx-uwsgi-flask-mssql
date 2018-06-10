@@ -12,14 +12,12 @@ variables:
 
 before_script:
   - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD"
-  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 
 build27:
   stage: build
   script:
-    - docker pull "${CI_REGISTRY_IMAGE}:2.7" || true
-    - docker build --cache-from "${CI_REGISTRY_IMAGE}:2.7" --tag "${CI_REGISTRY_IMAGE}:2.7" --tag "${REGISTRY_IMAGE}:2.7" --tag "${REGISTRY_IMAGE}:py2.7" --tag "${REGISTRY_IMAGE}:python2.7" ./python2.7/
-    - docker push "${CI_REGISTRY_IMAGE}:2.7"
+    - docker pull "${REGISTRY_IMAGE}:2.7" || true
+    - docker build --cache-from "${REGISTRY_IMAGE}:2.7" --tag "${REGISTRY_IMAGE}:2.7" --tag "${REGISTRY_IMAGE}:py2.7" --tag "${REGISTRY_IMAGE}:python2.7" ./python2.7/
     - docker push "${REGISTRY_IMAGE}:2.7"
     - docker push "${REGISTRY_IMAGE}:py2.7"
     - docker push "${REGISTRY_IMAGE}:python2.7"
@@ -30,9 +28,8 @@ build27:
 build36:
   stage: build
   script:
-    - docker pull "${CI_REGISTRY_IMAGE}:3.6" || true
-    - docker build --cache-from "${CI_REGISTRY_IMAGE}:3.6" --tag "${CI_REGISTRY_IMAGE}:3.6" --tag "${REGISTRY_IMAGE}:3.6" --tag "${REGISTRY_IMAGE}:py3.6" --tag "${REGISTRY_IMAGE}:python3.6" ./python3.6/
-    - docker push "${CI_REGISTRY_IMAGE}:3.6"
+    - docker pull "${REGISTRY_IMAGE}:3.6" || true
+    - docker build --cache-from "${REGISTRY_IMAGE}:3.6" --tag "${REGISTRY_IMAGE}:3.6" --tag "${REGISTRY_IMAGE}:py3.6" --tag "${REGISTRY_IMAGE}:python3.6" ./python3.6/
     - docker push "${REGISTRY_IMAGE}:3.6"
     - docker push "${REGISTRY_IMAGE}:py3.6"
     - docker push "${REGISTRY_IMAGE}:python3.6"
