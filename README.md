@@ -1,7 +1,7 @@
 # Supported tags and `Dockerfile` links
 
-- `py2.7`, `python2.7` [_(python2.7/Dockerfile)_](https://github.com/robertpeteuil/docker-nginx-uwsgi-flask-mssql/blob/master/python2.7/Dockerfile)
-- `py3.6`, `python3.6` [_(python3.6/Dockerfile)_](https://github.com/robertpeteuil/docker-nginx-uwsgi-flask-mssql/blob/master/python3.6/Dockerfile)
+- `2.7`, `py2.7`, `python2.7` [_(python2.7/Dockerfile)_](https://github.com/robpco/docker-nginx-uwsgi-flask-mssql/blob/master/python2.7/Dockerfile)
+- `3.6`, `py3.6`, `python3.6` [_(python3.6/Dockerfile)_](https://github.com/robpco/docker-nginx-uwsgi-flask-mssql/blob/master/python3.6/Dockerfile)
 
 **You must explicitly use one of the tags above.**  The `latest` tag is not assigned since each tag represents a different variant, not an incremental version.
 
@@ -9,7 +9,7 @@
 
 **Docker** image for Python Apps with **Nginx**, **uWSGI**, **Flask**, **MS SQL Driver** and **pyodbc** running in a single container to enable Python Flask Web Apps that require MS SQL connectivity and scaling for production with Nginx.
 
-**GitHub Repo**: <https://github.com/robertpeteuil/docker-nginx-uwsgi-flask-mssql>
+**GitHub Repo**: <https://github.com/robpco/docker-nginx-uwsgi-flask-mssql>
 
 **Docker Hub Images**: <https://hub.docker.com/r/robpco/nginx-uwsgi-flask-mssql/>
 
@@ -17,7 +17,7 @@
 
 This Docker image allow the creation of Python Web Apps with MS SQL connectivity to run on Nginx via uWSGI. It simplifies the task of using Flask Web Apps with MS SQL and serves web requests via Nginx which is recommended for production deployment.  These images use `pythonx.x-stretch` images as the base, so additional packages are installed from Debian stretch.
 
-- This image is similar to my [nginx-uwsgi-flask](https://github.com/robertpeteuil/docker-nginx-uwsgi-flask) image but also includes the MS SQL Driver, unixODBC Driver and pyodbc library installed.
+- This image is similar to my [nginx-uwsgi-flask](https://github.com/robpco/docker-nginx-uwsgi-flask) image but also includes the MS SQL Driver, unixODBC Driver and pyodbc library installed.
 - Installing the MS Sql Driver in a container can be difficult as it requires installation from a specific Microsoft repository. installing and configuring `locales` with a specific configuration.
 
 This repo auto-generates images to [Docker-Hub](https://hub.docker.com/r/robpco/nginx-uwsgi-flask-mssql/).  It currently supports Python 2.7 and 3.6.
@@ -36,7 +36,7 @@ docker run --name webapp -d -p 8080:80 -v ./app:/app robpco/nginx-uwsgi-flask-ms
 
 - The name of your application should be `main.py`
 - The folder containing it must be mapped to `/app` folder in the container.
-- The default filename can be changed by creating a custom [`uwsgi.ini`](https://github.com/robertpeteuil/docker-nginx-uwsgi-flask-mssql/blob/master/python2.7/app/uwsgi.ini) file
+- The default filename can be changed by creating a custom [`uwsgi.ini`](https://github.com/robpco/docker-nginx-uwsgi-flask-mssql/blob/master/python2.7/app/uwsgi.ini) file
   - place it into the folder containing the application.
 
 ### Create an image for your **Flask Web-App** using this image as a base
