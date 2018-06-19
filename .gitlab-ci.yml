@@ -7,38 +7,30 @@ variables:
   REGISTRY: "docker.io"
   REGISTRY_USER: "robpco"
   RELEASE_IMAGE: "nginx-uwsgi-flask-mssql"
-  RELEASE_TAG: "latest"
   REGISTRY_IMAGE: "${REGISTRY}/${REGISTRY_USER}/${RELEASE_IMAGE}"
-
-before_script:
-  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD"
 
 build27:
   stage: build
   script:
-    - docker pull "${REGISTRY_IMAGE}:2.7" || true
-    - docker build --cache-from "${REGISTRY_IMAGE}:2.7" --tag "${REGISTRY_IMAGE}:2.7" --tag "${REGISTRY_IMAGE}:py2.7" --tag "${REGISTRY_IMAGE}:python2.7" ./python2.7/
+    - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD"
+    - docker build --pull --tag "${REGISTRY_IMAGE}:2.7" --tag "${REGISTRY_IMAGE}:py2.7" --tag "${REGISTRY_IMAGE}:python2.7" ./python2.7/
     - docker push "${REGISTRY_IMAGE}:2.7"
     - docker push "${REGISTRY_IMAGE}:py2.7"
     - docker push "${REGISTRY_IMAGE}:python2.7"
   only:
     variables:
       - $CI_COMMIT_TAG =~ /^deploy+/
-    # refs:
-    #   - schedules
   retry: 2
 
 build36:
   stage: build
   script:
-    - docker pull "${REGISTRY_IMAGE}:3.6" || true
-    - docker build --cache-from "${REGISTRY_IMAGE}:3.6" --tag "${REGISTRY_IMAGE}:3.6" --tag "${REGISTRY_IMAGE}:py3.6" --tag "${REGISTRY_IMAGE}:python3.6" ./python3.6/
+    - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD"
+    - docker build --pull --tag "${REGISTRY_IMAGE}:3.6" --tag "${REGISTRY_IMAGE}:py3.6" --tag "${REGISTRY_IMAGE}:python3.6" ./python3.6/
     - docker push "${REGISTRY_IMAGE}:3.6"
     - docker push "${REGISTRY_IMAGE}:py3.6"
     - docker push "${REGISTRY_IMAGE}:python3.6"
   only:
     variables:
       - $CI_COMMIT_TAG =~ /^deploy+/
-    # refs:
-    #   - schedules
   retry: 2
