@@ -3,6 +3,10 @@ image: docker:latest
 services:
   - docker:dind
 
+stages:
+  - build
+  - notifications
+
 variables:
   REGISTRY: "docker.io"
   REGISTRY_USER: "robpco"
@@ -34,3 +38,27 @@ build36:
     variables:
       - $CI_COMMIT_TAG =~ /^deploy+/
   retry: 2
+
+notify_succcess_slack:
+  stage: notifications
+  allow_failure: true
+  script:
+    - apk --update add curl
+    - date=$(date +%Y%m%d-%H%M)
+    - './.cicd/notify_slack.sh "#builds" "$RELEASE_IMAGE - build success at $date"'
+  when: on_success
+  only:
+    variables:
+      - $CI_COMMIT_TAG =~ /^deploy+/
+
+notify_fail_slack:
+  stage: notifications
+  allow_failure: true
+  script:
+    - apk --update add curl 
+    - date=$(date +%Y%m%d-%H%M)
+    - './.cicd/notify_slack.sh "#builds" "$RELEASE_IMAGE - build failure at $date"'
+  when: on_failure
+  only:
+    variables:
+      - $CI_COMMIT_TAG =~ /^deploy+/
