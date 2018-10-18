@@ -39,6 +39,19 @@ build36:
       - $CI_COMMIT_TAG =~ /^deploy+/
   retry: 2
 
+build37:
+  stage: build
+  script:
+    - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD"
+    - docker build --pull --tag "${REGISTRY_IMAGE}:3.7" --tag "${REGISTRY_IMAGE}:py3.7" --tag "${REGISTRY_IMAGE}:python3.7" ./python3.7/
+    - docker push "${REGISTRY_IMAGE}:3.7"
+    - docker push "${REGISTRY_IMAGE}:py3.7"
+    - docker push "${REGISTRY_IMAGE}:python3.7"
+  only:
+    variables:
+      - $CI_COMMIT_TAG =~ /^deploy+/
+  retry: 2
+
 notify_succcess_slack:
   stage: notifications
   allow_failure: true
