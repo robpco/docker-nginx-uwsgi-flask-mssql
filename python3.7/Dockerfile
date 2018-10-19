@@ -1,4 +1,4 @@
-FROM python:3.6-stretch
+FROM python:3.7-stretch
 
 ENV NGINX_VERSION 1.15.0-1~stretch
 

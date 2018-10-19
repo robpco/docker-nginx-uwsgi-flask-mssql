@@ -1,6 +1,6 @@
 FROM python:2.7-stretch
 
-ENV NGINX_VERSION 1.13.12-1~stretch
+ENV NGINX_VERSION 1.15.0-1~stretch
 
 # use multiple key servers to protect against build failure
 RUN set -x && \
