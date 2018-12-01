@@ -1,21 +1,10 @@
 FROM python:3.7-stretch
 
-ENV NGINX_VERSION 1.15.5-1~stretch
+ENV NGINX_VERSION 1.15.7-1~stretch
 
 # use multiple key servers to protect against build failure
 RUN set -x && \
-    NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
-    found=''; \
-    for server in \
-    ha.pool.sks-keyservers.net \
-    hkp://keyserver.ubuntu.com:80 \
-    hkp://p80.pool.sks-keyservers.net:80 \
-    pgp.mit.edu \
-    ; do \
-    echo "Fetching GPG key $NGINX_GPGKEY from $server"; \
-    apt-key adv --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$NGINX_GPGKEY" && found=yes && break; \
-    done; \
-    test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
+    curl -O https://nginx.org/keys/nginx_signing.key && apt-key add ./nginx_signing.key; \
     echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
