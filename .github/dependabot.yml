@@ -1,0 +1,11 @@
+version: 2
+updates:
+- package-ecosystem: docker
+  directory: "/python3.6"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: python
+    versions:
+    - "> 3.6.pre.stretch, < 4"
